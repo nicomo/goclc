@@ -1,4 +1,4 @@
-// Copyright © 2019 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2019 Nicolas Morin <nicolas.morin@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,33 +23,32 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// viafGetwkpCmd represents the viafGetwkp command
-var viafGetwkpCmd = &cobra.Command{
-	Use:   "viafGetwkp",
-	Short: "Finds a Wikidata ID from a VIAF ID",
+// vlcnCmd represents the vlcn command
+var vlcnCmd = &cobra.Command{
+	Use:   "vlcn",
+	Short: "Finds a Library of Congress ID from a VIAF ID",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("viafGetwkp called")
-		res, err := oclcapis.ViafGetWKP((args[0]))
+		fmt.Println("vlcn called")
+		res, err := oclcapis.ViafGetLCN(args[0])
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
 		fmt.Printf("input: %s, result: %s\n", args[0], res)
-
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(viafGetwkpCmd)
+	rootCmd.AddCommand(vlcnCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// viafGetwkpCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// vlcnCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// viafGetwkpCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// vlcnCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

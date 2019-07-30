@@ -1,4 +1,4 @@
-// Copyright © 2019 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2019 Nicolas Morin <nicolas.morin@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,13 +24,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// viafDataCmd represents the viafData command
-var viafDataCmd = &cobra.Command{
-	Use:   "viafData",
+// vidsCmd represents the vids command
+var vidsCmd = &cobra.Command{
+	Use:   "vids [iput string]",
 	Short: "Finds all source IDs, e.g. LC, DNB, WKP, etc. from a VIAF ID",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("viafData called")
+		fmt.Println("vids called")
 		res, err := oclcapis.ViafGetIDs(args[0])
 		if err != nil {
 			fmt.Println(err)
@@ -47,15 +47,15 @@ var viafDataCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(viafDataCmd)
+	rootCmd.AddCommand(vidsCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// viafDataCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// vidsCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// viafDataCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// vidsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
