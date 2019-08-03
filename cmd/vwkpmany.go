@@ -1,5 +1,6 @@
-// Copyright © 2019 Nicolas Morin <nicolas.morin@gmail.com>
 /*
+Copyright © 2019 Nicolas Morin <nicolas.morin@gmail.com>
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -24,15 +25,14 @@ import (
 	"unicode"
 
 	"github.com/nicomo/oclcapis"
-
 	"github.com/spf13/cobra"
 )
 
-// vlcnmanyCmd represents the vlcnmany command
-var vlcnmanyCmd = &cobra.Command{
-	Use:   "vlcnmany [input file] [OPTIONS]",
-	Short: "Retrieve Library of Congress IDs (LCN) for a bunch of VIAF IDs.",
-	Long: `Retrieve a bunch of Library of Congress IDs 
+// vwkpmanyCmd represents the vwkpmany command
+var vwkpmanyCmd = &cobra.Command{
+	Use:   "vwkpmany [input file] [OPTIONS]",
+	Short: "Retrieve Wikidata IDs for a bunch of VIAF IDs.",
+	Long: `Retrieve a bunch of wikidata IDs 
 	from Viaf IDs.
 
 	Input should be a file with 1 viaf ID per line, e.g. 
@@ -42,13 +42,13 @@ var vlcnmanyCmd = &cobra.Command{
 	etc.
 	
 	Result is a csv with 1 result per line, like so:
-	10017193,could not find a LC Number for 10017193
-	10020421,n2001113638
-	10011312,n00037379
+	10017193,could not find  10017193
+	10020421,Q30084598
+	10011312,
 	etc.`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("vlcnmany called")
+		fmt.Println("vwkpmany called")
 
 		// open input file
 		f, err := os.Open(args[0])
@@ -76,7 +76,7 @@ var vlcnmanyCmd = &cobra.Command{
 		}
 
 		// call WS
-		res, err := oclcapis.ViafGetLCNs(input)
+		res, err := oclcapis.ViafGetWKPs(input)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -112,6 +112,15 @@ var vlcnmanyCmd = &cobra.Command{
 }
 
 func init() {
-	//	vtmanyCmd.Flags().StringVarP(&vlmany, "output", "o", "vlcnmany-output", "output filename, without extension, e.g. my-output-file")
-	rootCmd.AddCommand(vlcnmanyCmd)
+	rootCmd.AddCommand(vwkpmanyCmd)
+
+	// Here you will define your flags and configuration settings.
+
+	// Cobra supports Persistent Flags which will work for this command
+	// and all subcommands, e.g.:
+	// vwkpmanyCmd.PersistentFlags().String("foo", "", "A help for foo")
+
+	// Cobra supports local flags which will only run when this command
+	// is called directly, e.g.:
+	// vwkpmanyCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
