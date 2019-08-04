@@ -26,7 +26,7 @@ import (
 
 // vidsCmd represents the vids command
 var vidsCmd = &cobra.Command{
-	Use:   "vids [iput string]",
+	Use:   "vids [input string]",
 	Short: "Finds all source IDs, e.g. LC, DNB, WKP, etc. from a VIAF ID",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {

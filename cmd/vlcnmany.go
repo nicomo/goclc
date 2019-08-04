@@ -16,14 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"bufio"
-	"encoding/csv"
 	"fmt"
-	"log"
-	"os"
-	"unicode"
-
-	"github.com/nicomo/oclcapis"
 
 	"github.com/spf13/cobra"
 )
@@ -49,65 +42,7 @@ var vlcnmanyCmd = &cobra.Command{
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("vlcnmany called")
-
-		// open input file
-		f, err := os.Open(args[0])
-		if err != nil {
-			log.Fatalf("could not read input file: %v", err)
-		}
-		defer f.Close()
-
-		// read line by line and add to input slice
-		var input []string
-		fScanner := bufio.NewScanner(f)
-		for fScanner.Scan() {
-			s := fScanner.Text()
-
-			// checks for empty lines and whitespaces
-			if len(s) == 0 {
-				log.Fatalf("file should not have empty lines")
-			}
-			for _, runeValue := range s {
-				if unicode.IsSpace(runeValue) {
-					log.Fatalf("lines should not have spaces, see %s\n", s)
-				}
-			}
-			input = append(input, s)
-		}
-
-		// call WS
-		res, err := oclcapis.ViafGetLCNs(input)
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		// prepare result for csv
-		output := [][]string{}
-		for k := range res {
-			output = append(output, []string{k, res[k]})
-		}
-
-		// write result to file
-		file, err := os.Create(ofname + ".csv")
-		if err != nil {
-			log.Fatalf("cannot create file: %v\n", err)
-		}
-		defer file.Close()
-
-		w := csv.NewWriter(file)
-
-		for _, o := range output {
-			if err := w.Write(o); err != nil {
-				log.Fatalln("error writing record to csv:", err)
-			}
-		}
-
-		// Write any buffered data to the underlying writer
-		w.Flush()
-
-		if err := w.Error(); err != nil {
-			log.Fatal(err)
-		}
+		getMany("vlcnmany", args[0])
 	},
 }
 
