@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"unicode"
 
 	"github.com/nicomo/oclcapis"
@@ -69,6 +70,12 @@ var wciCmd = &cobra.Command{
 					log.Fatalf("lines should not have spaces, see %s\n", s)
 				}
 			}
+
+			// check for required prefix
+			if !strings.HasPrefix(s, "lccn-") {
+				log.Fatalf("lines should have required prefix lccn-, see %s\n", s)
+			}
+
 			input = append(input, s)
 		}
 
